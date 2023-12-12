@@ -13,9 +13,9 @@ type Message struct {
 }
 
 func getBlockchain(c *fiber.Ctx) error {
-	bytes, err := json.MarshalIndent(chain.Blockchain, "", "  ") //change prefix & suffix
+	bytes, err := json.MarshalIndent(chain.Blockchain, "", "  ")
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		return respondJSON(c, fiber.StatusInternalServerError, err)()
 	}
 	return c.Status(fiber.StatusOK).Send(bytes)
 }
@@ -37,7 +37,11 @@ func writeBlock(c *fiber.Ctx) error {
 		spew.Dump(newBlock)
 	}
 
-	return respondJSON(c, fiber.StatusCreated, newBlock)()
+	bytes, err := json.MarshalIndent(newBlock, "", "  ")
+	if err != nil {
+		return respondJSON(c, fiber.StatusInternalServerError, err)()
+	}
+	return c.Status(fiber.StatusCreated).Send(bytes)
 }
 
 func respondJSON(c *fiber.Ctx, code int, payload interface{}) func() error {
