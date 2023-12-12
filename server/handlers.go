@@ -9,7 +9,7 @@ import (
 )
 
 type Message struct {
-	BPM int `json:"bpm"`
+	Age int `json:"age"`
 }
 
 func getBlockchain(c *fiber.Ctx) error {
@@ -26,7 +26,7 @@ func writeBlock(c *fiber.Ctx) error {
 		return respondJSON(c, fiber.StatusBadRequest, err)()
 	}
 
-	newBlock, err := chain.GenerateBlock(chain.Blockchain[len(chain.Blockchain)-1], m.BPM)
+	newBlock, err := chain.GenerateBlock(chain.Blockchain[len(chain.Blockchain)-1], m.Age)
 	if err != nil {
 		return respondJSON(c, fiber.StatusInternalServerError, m)()
 	}

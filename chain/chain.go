@@ -10,18 +10,18 @@ import (
 type Block struct {
 	Index     int    // Position in the blockchain
 	Timestamp string // Time the data is written
-	BPM       int
+	Age       int
 	Hash      string // SHA256
 	PrevHash  string // prev SHA256
 }
 
 var Blockchain []Block
 
-func GenerateBlock(oldBlock Block, BPM int) (Block, error) {
+func GenerateBlock(oldBlock Block, Age int) (Block, error) {
 	var newBlock Block
 	newBlock.Index = oldBlock.Index + 1
 	newBlock.Timestamp = time.Now().String()
-	newBlock.BPM = BPM
+	newBlock.Age = Age
 	newBlock.PrevHash = oldBlock.Hash
 	newBlock.Hash = calcHash(newBlock)
 
@@ -29,7 +29,7 @@ func GenerateBlock(oldBlock Block, BPM int) (Block, error) {
 }
 
 func calcHash(block Block) string {
-	record := fmt.Sprint(block.Index) + block.Timestamp + fmt.Sprint(block.BPM) + block.PrevHash
+	record := fmt.Sprint(block.Index) + block.Timestamp + fmt.Sprint(block.Age) + block.PrevHash
 	h := sha256.New()
 	h.Write([]byte(record))
 	hashed := h.Sum(nil)

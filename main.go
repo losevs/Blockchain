@@ -19,7 +19,7 @@ func init() {
 
 func main() {
 	go func() {
-		genesisBlock := chain.Block{Index: 0, Timestamp: time.Now().String(), BPM: 0, Hash: "", PrevHash: ""}
+		genesisBlock := chain.Block{Index: 0, Timestamp: time.Now().String(), Age: 0, Hash: "", PrevHash: ""}
 		spew.Dump(genesisBlock)
 		chain.Blockchain = append(chain.Blockchain, genesisBlock)
 	}()
